@@ -18,20 +18,9 @@ public class UserDetails {
     @Basic
     private String username;
 
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date date;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_add",
-        joinColumns = @JoinColumn(name = "userId"))
-    private List<Address> addresses;
-
-    /*@Embedded
-    @AttributeOverrides({
-    @AttributeOverride(name = "city" , column = @Column(name = "office_city")),
-    @AttributeOverride(name = "postcode" , column = @Column(name = "office_postcode"))
-    })
-    Address officeAddress;*/
+    @OneToOne
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
 
     public UserDetails() {
     }
@@ -57,29 +46,11 @@ public class UserDetails {
         this.username = username;
     }
 
-    public Date getDate() {
-        return date;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDetails{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", date=" + date +
-                ", addresses=" + addresses +
-                '}';
-    }
-
-    public List<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }
