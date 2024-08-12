@@ -21,12 +21,9 @@ public class UserDetails {
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date date;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "user_add",
         joinColumns = @JoinColumn(name = "userId"))
-    @GenericGenerator(name = "increment-gen", strategy = "increment")
-    @CollectionId(column = @Column(name = "address_id"), generator = "increment-gen",
-                    type = @Type(type = "long"))
     private List<Address> addresses;
 
     /*@Embedded
@@ -74,6 +71,7 @@ public class UserDetails {
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", date=" + date +
+                ", addresses=" + addresses +
                 '}';
     }
 

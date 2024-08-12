@@ -44,26 +44,21 @@ public class App
         session.getTransaction().commit();
         session.close();
 
-        /*user1 = new UserDetails();
-        user1.setUsername("Viraj");
-        user1.setDate(new Date());
-        Address add2 = new Address();
-        add2.setCity("Bharuch");
-        add2.setCity("410987");
-        user1.setAddress(add2);
-        session.save(user1);*/
 
-
-
-        /*user1 = null;
+        UserDetails user2 = null;
 
         session = sessionFactory.openSession();
         session.beginTransaction();
 
-        user1 = session.get(UserDetails.class, 1);
-        System.out.println(user1);
+        user2 = session.get(UserDetails.class, 1);
+
+        System.out.println("Fetch type Eager : " +
+                "call to user address table is already made");
+
+        System.out.println(user2.getAddresses());
+
         session.getTransaction().commit();
-        session.close();*/
+        session.close();
 
 
     }
