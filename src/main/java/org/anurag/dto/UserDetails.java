@@ -1,5 +1,9 @@
 package org.anurag.dto;
 
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +22,11 @@ public class UserDetails {
     private Date date;
 
     @ElementCollection
+    @JoinTable(name = "user_add",
+        joinColumns = @JoinColumn(name = "userId"))
+    @GenericGenerator(name = "increment-gen", strategy = "increment")
+    @CollectionId(column = @Column(name = "address_id"), generator = "increment-gen",
+                    type = @Type(type = "long"))
     private List<Address> addresses;
 
     /*@Embedded
