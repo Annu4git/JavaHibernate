@@ -9,10 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 
@@ -31,21 +28,27 @@ public class App
 
         session.beginTransaction();
 
-        Criteria criteria1 = session.createCriteria(UserDetails.class);
-        criteria1.add(Restrictions.lt("userId", 5))
-                .setProjection(Projections.property("username"));
+        String[] cities = {"Delhi", "Delhi", "Mumbai", "Bharuch", "Delhi", "Kochi", "Delhi", "Chennai", "Delhi", "Agra"};
 
-        List<String> userList1 = criteria1.list();
-        for(String user : userList1) {
-            System.out.println(user);
+        for (int i = 1; i <= 10; i++) {
+            UserDetails user = new UserDetails();
+            user.setCity(cities[i-1]); user.setUsername("user_" + i);
+            user.setUserId(i);
+            session.save(user);
         }
 
-        System.out.println("Records in descending order : ");
-        Criteria criteria2 = session.createCriteria(UserDetails.class)
-                                    .addOrder(Order.desc("userId"));
+        UserDetails exampleUser = new UserDetails();
+        exampleUser.setCity("Delhi");
 
-        List<UserDetails> userList2 = criteria2.list();
-        for(UserDetails user : userList2) {
+        Example example = Example.create(exampleUser);
+
+        // Example example = Example.create(exampleUser).excludeProperty("propertyName");
+
+        Criteria criteria1 = session.createCriteria(UserDetails.class)
+                                    .add(example);
+
+        List<UserDetails> userList1 = criteria1.list();
+        for(UserDetails user : userList1) {
             System.out.println(user);
         }
 

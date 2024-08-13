@@ -17,6 +17,8 @@ public class UserDetails {
     @Basic
     private String username;
 
+    private String city;
+
     public UserDetails() {
     }
 
@@ -41,11 +43,20 @@ public class UserDetails {
         this.username = username;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "UserDetails{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
+                ", city='" + city + '\'' +
                 '}';
     }
 }
