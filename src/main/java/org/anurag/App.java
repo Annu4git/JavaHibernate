@@ -24,18 +24,17 @@ public class App
 
         Vehicle vehicle1 = new Vehicle();
         vehicle1.setVehicleName("Car");
-        vehicle1.getUsers().add(user1);
-        user1.getVehicles().add(vehicle1);
 
         Vehicle vehicle2 = new Vehicle();
         vehicle2.setVehicleName("Bike");
-        vehicle2.getUsers().add(user1);
+
+        user1.getVehicles().add(vehicle1);
         user1.getVehicles().add(vehicle2);
 
         session.beginTransaction();
         session.save(user1);
-        session.save(vehicle1);
-        session.save(vehicle2);
+        /*session.save(vehicle1);
+        session.save(vehicle2);*/
         session.getTransaction().commit();
         session.close();
 

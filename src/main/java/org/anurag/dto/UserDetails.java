@@ -14,7 +14,7 @@ public class UserDetails {
     @Basic
     private String username;
 
-    @ManyToMany(mappedBy = "users")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Vehicle> vehicles = new ArrayList<>();
 
     public UserDetails() {
