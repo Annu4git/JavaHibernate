@@ -26,17 +26,19 @@ public class App
 
         session.beginTransaction();
 
-        Query selectQuery = session.createQuery("from users");
+        Query selectQuery = session.createQuery("select username from users");
+        selectQuery.setFirstResult(5);  // skip 5 results
+        selectQuery.setMaxResults(3);   // limit 3 records
+        List<String> list = selectQuery.list();
 
-        List list = selectQuery.list();
-        System.out.println("Total users : " + list.size());
+        for (String user : list) {
+            System.out.println(user);
+        }
 
-        selectQuery = session.createQuery("from users where userId > 5");
-        list = selectQuery.list();
-        System.out.println("users with userId > 5 : " + list.size());
+        selectQuery = session.createQuery("select count(*) from users");
+        System.out.println("Total users : " + selectQuery.uniqueResult());
 
         session.getTransaction().commit();
         session.close();
-
     }
 }
