@@ -26,17 +26,20 @@ public class App
 
         session.beginTransaction();
 
-        Query selectQuery = session.createQuery("select username from users");
-        selectQuery.setFirstResult(5);  // skip 5 results
-        selectQuery.setMaxResults(3);   // limit 3 records
-        List<String> list = selectQuery.list();
+        String givenId = "5";
+        Query selectQuery = session.createQuery("select username from users where userId > :givenId");
+        selectQuery.setParameter("givenId", Integer.parseInt(givenId));
+        List<String> users = selectQuery.list();
+        for (String user : users) { System.out.println(user); }
 
-        for (String user : list) {
+        System.out.println("SQL Injection attack");
+        String attackersId = "5 OR 1 = 1";
+        selectQuery = session.createQuery("select username from users where userId > :attackersId");
+        selectQuery.setParameter("attackersId", Integer.parseInt(attackersId));
+        users = selectQuery.list();
+        for (String user : users) {
             System.out.println(user);
         }
-
-        selectQuery = session.createQuery("select count(*) from users");
-        System.out.println("Total users : " + selectQuery.uniqueResult());
 
         session.getTransaction().commit();
         session.close();
