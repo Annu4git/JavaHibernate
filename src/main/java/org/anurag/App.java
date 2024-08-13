@@ -9,6 +9,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
@@ -29,47 +32,20 @@ public class App
         session.beginTransaction();
 
         Criteria criteria1 = session.createCriteria(UserDetails.class);
-        criteria1.add(Restrictions.eq("username", "user_4"));
+        criteria1.add(Restrictions.lt("userId", 5))
+                .setProjection(Projections.property("username"));
 
-        List<UserDetails> userList1 = criteria1.list();
-        for(UserDetails user : userList1) {
+        List<String> userList1 = criteria1.list();
+        for(String user : userList1) {
             System.out.println(user);
         }
 
-        Criteria criteria2 = session.createCriteria(UserDetails.class);
-        criteria2.add(Restrictions.gt("userId", 3))
-                .add(Restrictions.le("userId", 8));
+        System.out.println("Records in descending order : ");
+        Criteria criteria2 = session.createCriteria(UserDetails.class)
+                                    .addOrder(Order.desc("userId"));
 
         List<UserDetails> userList2 = criteria2.list();
         for(UserDetails user : userList2) {
-            System.out.println(user);
-        }
-
-        System.out.println("************ Between ************");
-        Criteria criteria4 = session.createCriteria(UserDetails.class);
-        criteria4.add(Restrictions.between("userId", 3, 5));
-
-        List<UserDetails> userList4 = criteria4.list();
-        for(UserDetails user : userList4) {
-            System.out.println(user);
-        }
-
-        System.out.println("************ Like ************");
-        Criteria criteria3 = session.createCriteria(UserDetails.class);
-        criteria3.add(Restrictions.like("username", "%9%"));
-
-        List<UserDetails> userList3 = criteria3.list();
-        for(UserDetails user : userList3) {
-            System.out.println(user);
-        }
-
-        System.out.println("************ OR ************");
-        Criteria criteria5 = session.createCriteria(UserDetails.class);
-        criteria5.add(Restrictions.or(Restrictions.like("username", "%2%"),
-                Restrictions.between("userId", 7, 9)));
-
-        List<UserDetails> userList5 = criteria5.list();
-        for(UserDetails user : userList5) {
             System.out.println(user);
         }
 
