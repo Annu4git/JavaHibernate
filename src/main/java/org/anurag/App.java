@@ -26,20 +26,10 @@ public class App
 
         session.beginTransaction();
 
-        String givenId = "5";
-        Query selectQuery = session.createQuery("select username from users where userId > :givenId");
-        selectQuery.setParameter("givenId", Integer.parseInt(givenId));
-        List<String> users = selectQuery.list();
-        for (String user : users) { System.out.println(user); }
-
-        System.out.println("SQL Injection attack");
-        String attackersId = "5 OR 1 = 1";
-        selectQuery = session.createQuery("select username from users where userId > :attackersId");
-        selectQuery.setParameter("attackersId", Integer.parseInt(attackersId));
-        users = selectQuery.list();
-        for (String user : users) {
-            System.out.println(user);
-        }
+        Query query = session.getNamedQuery("getUserById");
+        query.setParameter("id", 1);
+        UserDetails user = (UserDetails) query.uniqueResult();
+        System.out.println(user.getUsername());
 
         session.getTransaction().commit();
         session.close();

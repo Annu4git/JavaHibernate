@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "users")
+@NamedQuery(name = "getUserById", query = "from users where userId = :id")
 public class UserDetails {
 
     @Id
