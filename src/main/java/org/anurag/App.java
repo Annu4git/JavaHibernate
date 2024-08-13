@@ -1,5 +1,7 @@
 package org.anurag;
 
+import org.anurag.dto.FourWheeler;
+import org.anurag.dto.TwoWheeler;
 import org.anurag.dto.UserDetails;
 import org.anurag.dto.Vehicle;
 import org.hibernate.Session;
@@ -12,29 +14,33 @@ public class App
 {
     public static void main( String[] args ) {
         Configuration con = new Configuration().configure().addAnnotatedClass(UserDetails.class)
-                .addAnnotatedClass(Vehicle.class);
+                .addAnnotatedClass(Vehicle.class)
+                .addAnnotatedClass(FourWheeler.class)
+                .addAnnotatedClass(TwoWheeler.class);
+
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(con.getProperties()).build();
         SessionFactory sessionFactory = con.buildSessionFactory(serviceRegistry);
 
         Session session = sessionFactory.openSession();
 
-        UserDetails user1 = new UserDetails();
-        user1.setUsername("Anurag");
-
         Vehicle vehicle1 = new Vehicle();
         vehicle1.setVehicleName("Car");
 
-        Vehicle vehicle2 = new Vehicle();
-        vehicle2.setVehicleName("Bike");
+        TwoWheeler bike = new TwoWheeler();
+        bike.setVehicleName("Bike");
+        bike.setSteeringHandle("Bike handle");
 
-        user1.getVehicles().add(vehicle1);
-        user1.getVehicles().add(vehicle2);
+        FourWheeler car = new FourWheeler();
+        car.setVehicleName("BMW");
+        car.setSteeringWheel("Car steering wheel");
 
         session.beginTransaction();
-        session.save(user1);
-        /*session.save(vehicle1);
-        session.save(vehicle2);*/
+
+        session.save(vehicle1);
+        session.save(bike);
+        session.save(car);
+
         session.getTransaction().commit();
         session.close();
 

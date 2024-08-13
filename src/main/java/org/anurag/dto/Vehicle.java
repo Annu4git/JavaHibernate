@@ -1,10 +1,9 @@
 package org.anurag.dto;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Vehicle {
     @Id
     @GeneratedValue
