@@ -28,31 +28,31 @@ public class App
 
         session.beginTransaction();
 
-        String[] cities = {"Delhi", "Delhi", "Mumbai", "Bharuch", "Delhi", "Kochi", "Delhi", "Chennai", "Delhi", "Agra"};
+        UserDetails u1 = session.get(UserDetails.class, 2);
+        u1.setUsername("updated username");
 
-        for (int i = 1; i <= 10; i++) {
-            UserDetails user = new UserDetails();
-            user.setCity(cities[i-1]); user.setUsername("user_" + i);
-            user.setUserId(i);
-            session.save(user);
-        }
-
-        UserDetails exampleUser = new UserDetails();
-        exampleUser.setCity("Delhi");
-
-        Example example = Example.create(exampleUser);
-
-        // Example example = Example.create(exampleUser).excludeProperty("propertyName");
-
-        Criteria criteria1 = session.createCriteria(UserDetails.class)
-                                    .add(example);
-
-        List<UserDetails> userList1 = criteria1.list();
-        for(UserDetails user : userList1) {
-            System.out.println(user);
-        }
+        // will not fetch again, since 1st level cache is there by default
+        u1 = session.get(UserDetails.class, 2);
 
         session.getTransaction().commit();
         session.close();
+
+
     }
 }
+
+
+
+
+/*
+
+session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        // this will fetch again, since it is a different session
+        // for this 2nd level cache must be enabled
+        System.out.println("This will fire select query, since new session : "+ session.get(UserDetails.class, 2));
+
+        session.getTransaction().commit();
+        session.close();
+ */
