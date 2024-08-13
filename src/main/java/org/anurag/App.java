@@ -23,26 +23,26 @@ public class App
 
         session.beginTransaction();
 
-        for(int i=1; i<10; i++) {
-            UserDetails user1 = new UserDetails();
-            user1.setUsername("user_"+i);
-            session.save(user1);
-        }
-        session.getTransaction().commit();
-        System.out.println("CREATE done");
+        UserDetails user1 = new UserDetails();
+        user1.setUsername("Anurag");
+        session.save(user1);
 
-        session.getTransaction().begin();
-        UserDetails user2 = session.get(UserDetails.class, 4);
-        System.out.println("READ : " + user2);
-
-        user2.setUsername("Updated username");
-        session.update(user2);
-        UserDetails user3 = session.get(UserDetails.class, 4);
-        System.out.println("UPDATE : " + user3);
-
-        session.delete(user3);
-        System.out.println("DELETE done");
         session.getTransaction().commit();
         session.close();
+
+        /* Updates may or may not happen after session is closed  */
+
+        session = sessionFactory.openSession();
+        session.getTransaction().begin();
+
+        System.out.println(user1.getUsername());
+        session.update(user1);
+        /* Update will happend, since Hibernate does not know whether any updates took place
+        *  when object was detached (not in session). Hibernate only knows objects who are Persistent (in session) */
+
+        session.getTransaction().commit();
+        session.close();
+
+
     }
 }
