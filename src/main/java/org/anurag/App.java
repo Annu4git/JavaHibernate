@@ -8,7 +8,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
+
+import java.util.List;
 
 public class App
 {
@@ -23,26 +26,17 @@ public class App
 
         session.beginTransaction();
 
-        UserDetails user1 = new UserDetails();
-        user1.setUsername("Anurag");
-        session.save(user1);
+        Query selectQuery = session.createQuery("from users");
+
+        List list = selectQuery.list();
+        System.out.println("Total users : " + list.size());
+
+        selectQuery = session.createQuery("from users where userId > 5");
+        list = selectQuery.list();
+        System.out.println("users with userId > 5 : " + list.size());
 
         session.getTransaction().commit();
         session.close();
-
-        /* Updates may or may not happen after session is closed  */
-
-        session = sessionFactory.openSession();
-        session.getTransaction().begin();
-
-        System.out.println(user1.getUsername());
-        session.update(user1);
-        /* Update will happend, since Hibernate does not know whether any updates took place
-        *  when object was detached (not in session). Hibernate only knows objects who are Persistent (in session) */
-
-        session.getTransaction().commit();
-        session.close();
-
 
     }
 }

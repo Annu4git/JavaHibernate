@@ -8,7 +8,6 @@ import java.util.List;
 public class UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
 
     @Basic
