@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +19,11 @@ public class UserDetails {
     @Basic
     private String username;
 
-    @OneToOne
-    @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
+    @OneToMany
+    @JoinTable(name = "user_and_vehicle",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "vehicle_id"))
+    private List<Vehicle> vehicle = new ArrayList<>();
 
     public UserDetails() {
     }
@@ -46,11 +49,11 @@ public class UserDetails {
         this.username = username;
     }
 
-    public Vehicle getVehicle() {
+    public List<Vehicle> getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Vehicle vehicle) {
+    public void setVehicle(List<Vehicle> vehicle) {
         this.vehicle = vehicle;
     }
 }
