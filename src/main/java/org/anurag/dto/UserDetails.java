@@ -1,12 +1,7 @@
 package org.anurag.dto;
 
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity(name = "users")
@@ -19,8 +14,8 @@ public class UserDetails {
     @Basic
     private String username;
 
-    @OneToMany(mappedBy = "user")
-    private List<Vehicle> vehicle = new ArrayList<>();
+    @ManyToMany(mappedBy = "users")
+    private List<Vehicle> vehicles = new ArrayList<>();
 
     public UserDetails() {
     }
@@ -46,11 +41,11 @@ public class UserDetails {
         this.username = username;
     }
 
-    public List<Vehicle> getVehicle() {
-        return vehicle;
+    public List<Vehicle> getVehicles() {
+        return vehicles;
     }
 
-    public void setVehicle(List<Vehicle> vehicle) {
-        this.vehicle = vehicle;
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
     }
 }

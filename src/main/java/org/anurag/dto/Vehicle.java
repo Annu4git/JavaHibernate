@@ -1,6 +1,8 @@
 package org.anurag.dto;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Vehicle {
@@ -10,9 +12,11 @@ public class Vehicle {
 
     private String vehicleName;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserDetails user;
+    @ManyToMany
+    @JoinTable(name = "vehicles_belongs_to_users",
+            joinColumns = @JoinColumn(name = "vehicle_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<UserDetails> users = new ArrayList<>();
 
     public int getVehicleId() {
         return vehicleId;
@@ -30,11 +34,11 @@ public class Vehicle {
         this.vehicleName = vehicleName;
     }
 
-    public UserDetails getUser() {
-        return user;
+    public List<UserDetails> getUsers() {
+        return users;
     }
 
-    public void setUser(UserDetails user) {
-        this.user = user;
+    public void setUsers(List<UserDetails> users) {
+        this.users = users;
     }
 }
