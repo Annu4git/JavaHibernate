@@ -14,9 +14,6 @@ public class UserDetails {
     @Basic
     private String username;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Vehicle> vehicles = new ArrayList<>();
-
     public UserDetails() {
     }
 
@@ -41,11 +38,11 @@ public class UserDetails {
         this.username = username;
     }
 
-    public List<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public void setVehicles(List<Vehicle> vehicles) {
-        this.vehicles = vehicles;
+    @Override
+    public String toString() {
+        return "UserDetails{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                '}';
     }
 }
