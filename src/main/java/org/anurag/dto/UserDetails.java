@@ -6,6 +6,9 @@ import java.util.List;
 
 @Entity(name = "users")
 @NamedQuery(name = "getUserById", query = "from users where userId = :id")
+@NamedNativeQuery(name ="getUserByName",
+                        query = "select * from users where username = :name",
+                        resultClass = UserDetails.class)
 public class UserDetails {
 
     @Id

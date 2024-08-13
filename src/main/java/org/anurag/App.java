@@ -28,8 +28,13 @@ public class App
 
         Query query = session.getNamedQuery("getUserById");
         query.setParameter("id", 1);
-        UserDetails user = (UserDetails) query.uniqueResult();
-        System.out.println(user.getUsername());
+        UserDetails user1 = (UserDetails) query.uniqueResult();
+        System.out.println(user1.getUsername());
+
+        query = session.getNamedNativeQuery("getUserByName");
+        query.setParameter("name", "user_2");
+        UserDetails user2 = (UserDetails) query.uniqueResult();
+        System.out.println(user2.getUserId());
 
         session.getTransaction().commit();
         session.close();
