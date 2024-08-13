@@ -19,10 +19,7 @@ public class UserDetails {
     @Basic
     private String username;
 
-    @OneToMany
-    @JoinTable(name = "user_and_vehicle",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "vehicle_id"))
+    @OneToMany(mappedBy = "user")
     private List<Vehicle> vehicle = new ArrayList<>();
 
     public UserDetails() {

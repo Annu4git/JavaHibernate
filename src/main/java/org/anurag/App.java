@@ -29,10 +29,12 @@ public class App
 
         Vehicle vehicle1 = new Vehicle();
         vehicle1.setVehicleName("Car");
+        vehicle1.setUser(user1);
         user1.getVehicle().add(vehicle1);
 
         Vehicle vehicle2 = new Vehicle();
         vehicle2.setVehicleName("Bike");
+        vehicle2.setUser(user1);
         user1.getVehicle().add(vehicle2);
 
         session.beginTransaction();
